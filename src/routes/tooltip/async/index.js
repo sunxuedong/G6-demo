@@ -3,7 +3,7 @@ import G6 from "@antv/g6";
 import { data } from "./utils/data";
 import "./index.scss";
 
-const Tooltip = () => {
+const TooltipAsync = () => {
   const graphContainer = useRef(null);
 
   useEffect(() => {
@@ -65,4 +65,4 @@ const Tooltip = () => {
   return <div ref={graphContainer} style={{ width: "100%", height: "100%" }} />;
 };
 
-export default Tooltip;
+export default TooltipAsync;

@@ -1,18 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import "./index.css";
-import Home from "./routes/home";
-import Tooltip from "./routes/tooltip";
+import TooltipAsync from "./routes/tooltip/async";
 import reportWebVitals from "./reportWebVitals";
+import Home from "./routes/home";
+import "./index.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <React.StrictMode>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/tooltip" element={<Tooltip />} />
+        <Route path="/">
+          <Route index path="home" element={<Home />} />
+          <Route path="tooltip">
+            <Route index path="async" element={<TooltipAsync />}></Route>
+          </Route>
+        </Route>
       </Routes>
     </React.StrictMode>
   </BrowserRouter>
