@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import TooltipSync from "./routes/tooltip/sync";
 import TooltipAsync from "./routes/tooltip/async";
 import reportWebVitals from "./reportWebVitals";
 import Home from "./routes/home";
@@ -15,7 +16,8 @@ root.render(
           <Route index element={<Home />} />
           <Route path="home" element={<Home />} />
           <Route path="tooltip">
-            <Route index element={<TooltipAsync />} />
+            <Route index element={<TooltipSync />} />
+            <Route path="sync" element={<TooltipSync />}></Route>
             <Route path="async" element={<TooltipAsync />}></Route>
           </Route>
         </Route>
