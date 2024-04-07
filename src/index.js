@@ -11,10 +11,12 @@ root.render(
   <BrowserRouter>
     <React.StrictMode>
       <Routes>
-        <Route path="/" element={<Home />}>
-          <Route index path="home" element={<Home />} />
-          <Route path="tooltip" element={<TooltipAsync />}>
-            <Route index path="async" element={<TooltipAsync />}></Route>
+        <Route path="/">
+          <Route index element={<Home />} />
+          <Route path="home" element={<Home />} />
+          <Route path="tooltip">
+            <Route index element={<TooltipAsync />} />
+            <Route path="async" element={<TooltipAsync />}></Route>
           </Route>
         </Route>
       </Routes>
