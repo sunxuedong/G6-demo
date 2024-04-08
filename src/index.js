@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import TooltipSync from "./routes/tooltip/sync";
-import TooltipAsync from "./routes/tooltip/async";
+import TooltipPlugin from "./routes/tooltip/plugin";
+import TooltipCustom from "./routes/tooltip/custom";
 import reportWebVitals from "./reportWebVitals";
 import Home from "./routes/home";
 import "./index.css";
@@ -16,9 +16,9 @@ root.render(
           <Route index element={<Home />} />
           <Route path="home" element={<Home />} />
           <Route path="tooltip">
-            <Route index element={<TooltipSync />} />
-            <Route path="sync" element={<TooltipSync />}></Route>
-            <Route path="async" element={<TooltipAsync />}></Route>
+            <Route index element={<TooltipPlugin />} />
+            <Route path="plugin" element={<TooltipPlugin />}></Route>
+            <Route path="custom" element={<TooltipCustom />}></Route>
           </Route>
         </Route>
       </Routes>

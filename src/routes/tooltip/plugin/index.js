@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import G6 from "@antv/g6";
 import { data } from "./utils/data";
+import { getTooltip } from "./utils/tooltip";
+import { initEvent } from "./utils/event";
 import "./index.scss";
 
 const TooltipAsync = () => {
@@ -24,17 +26,17 @@ const TooltipAsync = () => {
       modes: {
         default: [
           "drag-node",
-          {
-            type: "tooltip",
-            formatText: function formatText(model) {
-              var text = "description: " + model.description;
-              return text;
-            },
+          // {
+          //   type: "tooltip",
+          //   formatText: function formatText(model) {
+          //     var text = "description: " + model.description;
+          //     return text;
+          //   },
 
-            shouldUpdate: function shouldUpdate(e) {
-              return true;
-            },
-          },
+          //   shouldUpdate: function shouldUpdate(e) {
+          //     return true;
+          //   },
+          // },
           {
             type: "edge-tooltip",
             formatText: function formatText(model) {
@@ -48,6 +50,7 @@ const TooltipAsync = () => {
           },
         ],
       },
+      plugins: [getTooltip()],
     });
 
     // 添加图数据
@@ -55,6 +58,8 @@ const TooltipAsync = () => {
 
     // 渲染图
     graph.render();
+
+    initEvent({ graph });
 
     // 在组件卸载时销毁图实例
     return () => {
