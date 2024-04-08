@@ -5,7 +5,7 @@ import { getTooltip } from "./utils/tooltip";
 import { initEvent } from "./utils/event";
 import "./index.scss";
 
-const TooltipAsync = () => {
+const TooltipPlugin = () => {
   const graphContainer = useRef(null);
 
   useEffect(() => {
@@ -70,4 +70,4 @@ const TooltipAsync = () => {
   return <div ref={graphContainer} style={{ width: "100%", height: "100%" }} />;
 };
 
-export default TooltipAsync;
+export default TooltipPlugin;
