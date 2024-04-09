@@ -1,11 +1,17 @@
 import TooltipUtil from "./tooltip";
 
-const handleTooltip = ({ evt, asyncFn, graph }) => {
+const handleTooltip = ({
+  evt,
+  asyncFn,
+  graph,
+  setTooltipShow,
+  setTooltipX,
+  setTooltipY,
+  setTooltipContent,
+}) => {
   // const { item } = evt;
 
   if (!graph) return;
-
-  // const { x, y } = graph.getClientByPoint(evt.x, evt.y);
 
   // this.toolTipList = getContent(evt);
   // this.toolTipInfo = {
@@ -16,7 +22,11 @@ const handleTooltip = ({ evt, asyncFn, graph }) => {
 
   requestData({ evt }).then(
     asyncFn((res) => {
-      console.log(res);
+      const { x, y } = graph.getClientByPoint(evt.x, evt.y);
+      setTooltipShow(true);
+      setTooltipX(x);
+      setTooltipY(y);
+      setTooltipContent(res);
       // this.toolTipList = content;
       // this.toolTipInfo = { show: true, x, y };
     })
@@ -33,11 +43,17 @@ const requestData = ({ evt }) => {
   });
 };
 
-export const initEvent = ({ graph }) => {
+export const initEvent = ({
+  graph,
+  setTooltipShow,
+  setTooltipX,
+  setTooltipY,
+  setTooltipContent,
+}) => {
   const showAfterFirstTime = (evt) => {
-    // const {x, y} = graph.getClientByPoint(evt.x, evt.y);
-    // this.toolTipInfo.x = x;
-    // this.toolTipInfo.y = y;
+    const { x, y } = graph.getClientByPoint(evt.x, evt.y);
+    setTooltipX(x);
+    setTooltipY(y);
   };
 
   const showAtFirstTime = (evt, asyncFn) => {
@@ -46,7 +62,15 @@ export const initEvent = ({ graph }) => {
     console.log(type);
 
     if (["node", "edge"].includes(type)) {
-      handleTooltip({ graph, evt, asyncFn });
+      handleTooltip({
+        graph,
+        evt,
+        asyncFn,
+        setTooltipShow,
+        setTooltipX,
+        setTooltipY,
+        setTooltipContent,
+      });
     }
   };
 
@@ -64,7 +88,7 @@ export const initEvent = ({ graph }) => {
 
   graph.on("node:mouseleave", (evt) => {
     tooltipUtil.handleMouseOut(evt);
-    // this.toolTipInfo.show = false;
+    // setTooltipShow(false);
   });
 
   graph.on("node:mousemove", (evt) => {
@@ -78,7 +102,7 @@ export const initEvent = ({ graph }) => {
 
   graph.on("edge:mouseleave", (evt) => {
     tooltipUtil.handleMouseOut(evt);
-    // this.toolTipInfo.show = false;
+    setTooltipShow(false);
   });
 
   graph.on("edge:mousemove", (evt) => {
