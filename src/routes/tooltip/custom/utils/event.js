@@ -9,17 +9,6 @@ const handleTooltip = ({
   setTooltipY,
   setTooltipContent,
 }) => {
-  // const { item } = evt;
-
-  if (!graph) return;
-
-  // this.toolTipList = getContent(evt);
-  // this.toolTipInfo = {
-  //   show: true,
-  //   x,
-  //   y,
-  // };
-
   requestData({ evt }).then(
     asyncFn((res) => {
       const { x, y } = graph.getClientByPoint(evt.x, evt.y);
@@ -27,8 +16,6 @@ const handleTooltip = ({
       setTooltipX(x);
       setTooltipY(y);
       setTooltipContent(res);
-      // this.toolTipList = content;
-      // this.toolTipInfo = { show: true, x, y };
     })
   );
 };
@@ -38,7 +25,6 @@ const requestData = ({ evt }) => {
   const model = item.getModel();
 
   return new Promise((resolve, reject) => {
-    console.log("requesting data");
     setTimeout(() => resolve("description: " + model.description), 3000);
   });
 };
@@ -59,7 +45,6 @@ export const initEvent = ({
   const showAtFirstTime = (evt, asyncFn) => {
     const { item } = evt;
     const type = item.getType();
-    console.log(type);
 
     if (["node", "edge"].includes(type)) {
       handleTooltip({
@@ -88,7 +73,7 @@ export const initEvent = ({
 
   graph.on("node:mouseleave", (evt) => {
     tooltipUtil.handleMouseOut(evt);
-    // setTooltipShow(false);
+    setTooltipShow(false);
   });
 
   graph.on("node:mousemove", (evt) => {

@@ -74,7 +74,7 @@ const TooltipCustom = () => {
     <>
       <div ref={graphContainer} style={{ width: "100%", height: "100%" }} />
       <PositionTooltip show={tooltipShow} x={tooltipX} y={tooltipY}>
-        <div>{tooltipContent}</div>
+        <div className="tooltip-content">{tooltipContent}</div>
       </PositionTooltip>
     </>
   );

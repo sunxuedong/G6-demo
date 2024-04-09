@@ -2,9 +2,9 @@ import { throttle } from "lodash";
 
 export default class tooltip {
   // 鼠标是否在目标上
-  isMouseOver = false;
+  ifMouseOver = false;
   // 是否正在展示tooltip
-  isShowingTooltip = false;
+  ifShowingTooltip = false;
   // 时间戳，用于在move时判断曾经注册的move回调是否还需要调用
   ts = null;
   // 初次hover的回调
@@ -21,12 +21,12 @@ export default class tooltip {
       this.showAtFirstTime = (...args) => {
         showAtFirstTime(...args);
         // 标记正在显示toolTip
-        this.isShowingTooltip = true;
+        this.ifShowingTooltip = true;
       };
 
       this.throttleShowAtFirstTime = throttle(
         (...args) => {
-          this.isMouseOver && this.showAtFirstTime(...args);
+          this.ifMouseOver && this.showAtFirstTime(...args);
         },
         wait,
         options
@@ -41,12 +41,12 @@ export default class tooltip {
   }
 
   handleMouseOver = () => {
-    this.isMouseOver = true;
+    this.ifMouseOver = true;
   };
 
   handleMouseOut = () => {
-    this.isMouseOver = false;
-    this.isShowingTooltip = false;
+    this.ifMouseOver = false;
+    this.ifShowingTooltip = false;
     this.ts = null;
 
     if (typeof this.throttleShowAtFirstTime.cancel === "function") {
@@ -56,7 +56,7 @@ export default class tooltip {
 
   handleMouseMove = (evt) => {
     // 当前正在展示tooltip，那么不需要再次调用showAfterFirstTime
-    if (this.isShowingTooltip) {
+    if (this.ifShowingTooltip) {
       this.showAfterFirstTime(evt, this);
     } else {
       // 记录当前时间，const ts 用于闭包使用
@@ -69,20 +69,21 @@ export default class tooltip {
        * @param {*} fn 回调函数
        */
       const asyncFn = (fn) => {
-        // 判断当前的hover和发起异步之前是否是同一次
-        const isSameTimeHover = this.ts === ts && this.isMouseOver;
-
         // 返回高阶函数
         if (typeof fn === "function") {
           return (...args) => {
+            // 判断当前的hover和发起异步之前是否是同一次
+            const ifSameTimeHover = this.ts === ts && this.ifMouseOver;
             // 是同一次，那么执行回调
-            return isSameTimeHover && fn(...args);
+            return ifSameTimeHover && fn(...args);
           };
         }
 
         // 不传入回调则返回promise
         return new Promise((resolve, reject) => {
-          isSameTimeHover ? resolve() : reject();
+          // 判断当前的hover和发起异步之前是否是同一次
+          const ifSameTimeHover = this.ts === ts && this.ifMouseOver;
+          ifSameTimeHover ? resolve() : reject();
         });
       };
 
