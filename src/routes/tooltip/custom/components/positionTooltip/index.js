@@ -75,6 +75,7 @@ const PositionTooltip = (props) => {
     } else {
       setVisibility("hidden");
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [show, prevShow]);
 
   return (

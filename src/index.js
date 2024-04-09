@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import TooltipPlugin from "./routes/tooltip/plugin";
 import TooltipCustom from "./routes/tooltip/custom";
 import reportWebVitals from "./reportWebVitals";
+import Frame from "./routes/frame/index";
 import Home from "./routes/home";
 import "./index.css";
 
@@ -12,9 +13,8 @@ root.render(
   <BrowserRouter>
     <React.StrictMode>
       <Routes>
-        <Route path="/">
+        <Route path="/" element={<Frame />}>
           <Route index element={<Home />} />
-          <Route path="home" element={<Home />} />
           <Route path="tooltip">
             <Route index element={<TooltipPlugin />} />
             <Route path="plugin" element={<TooltipPlugin />}></Route>
