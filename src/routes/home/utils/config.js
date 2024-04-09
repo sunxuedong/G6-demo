@@ -4,14 +4,14 @@ export const menu = [
     label: "Tooltip",
     children: [
       {
-        key: "sync",
-        label: "同步显示(Synchronous display)",
-        path: "/tooltip/sync",
+        key: "plugin",
+        label: "使用tooltip插件",
+        path: "/tooltip/plugin",
       },
       {
-        key: "async",
-        label: "异步显示(Asynchronous display)",
-        path: "/tooltip/async",
+        key: "custom",
+        label: "使用自定义组件",
+        path: "/tooltip/custom",
       },
     ],
   },
