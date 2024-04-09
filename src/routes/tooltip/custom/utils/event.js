@@ -17,10 +17,7 @@ const handleTooltip = ({
 
   requestData({ evt }).then(
     asyncFn((res) => {
-      const { x, y } = graph.getClientByPoint(evt.x, evt.y);
       setTooltipShow(true);
-      setTooltipX(x);
-      setTooltipY(y);
       setTooltipContent(res);
     })
   );
