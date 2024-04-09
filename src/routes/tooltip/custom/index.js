@@ -30,17 +30,6 @@ const TooltipCustom = () => {
       modes: {
         default: [
           "drag-node",
-          // {
-          //   type: "tooltip",
-          //   formatText: function formatText(model) {
-          //     var text = "description: " + model.description;
-          //     return text;
-          //   },
-
-          //   shouldUpdate: function shouldUpdate(e) {
-          //     return true;
-          //   },
-          // },
           {
             type: "edge-tooltip",
             formatText: function formatText(model) {
@@ -62,7 +51,13 @@ const TooltipCustom = () => {
     // 渲染图
     graph.render();
 
-    initEvent({ graph, setTooltipShow, setTooltipX, setTooltipY, setTooltipContent });
+    initEvent({
+      graph,
+      setTooltipShow,
+      setTooltipX,
+      setTooltipY,
+      setTooltipContent,
+    });
 
     // 在组件卸载时销毁图实例
     return () => {
