@@ -5,8 +5,8 @@ import "./index.scss";
 
 function Frame() {
   const pathname = window.location.pathname;
-  const defaultSelectedKeys = pathname;
   const defaultOpenKeys = pathname.slice(1).split("/");
+  const defaultSelectedKeys = defaultOpenKeys.slice(-1);
   const clickMenu = ({ item }) => {
     const { path } = item.props;
     window.open(path, "_self");

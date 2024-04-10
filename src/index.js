@@ -1,11 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import TooltipPlugin from "./routes/tooltip/plugin";
-import TooltipCustom from "./routes/tooltip/custom";
 import reportWebVitals from "./reportWebVitals";
 import Frame from "./routes/frame/index";
 import Home from "./routes/home";
+import TooltipPlugin from "./routes/tooltip/plugin";
+import TooltipCustom from "./routes/tooltip/custom";
+import Anchor from "./routes/anchor";
 import "./index.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -20,6 +21,7 @@ root.render(
             <Route path="plugin" element={<TooltipPlugin />}></Route>
             <Route path="custom" element={<TooltipCustom />}></Route>
           </Route>
+          <Route path="anchor" element={<Anchor />} />
         </Route>
       </Routes>
     </React.StrictMode>
