@@ -15,7 +15,7 @@ const getDefaultOptions = () => {
       },
     },
     modes: {
-      default: ["drag-node"],
+      default: ["drag-node", "zoom-canvas", "drag-canvas"],
     },
     plugins: [getContextMenu()],
   };

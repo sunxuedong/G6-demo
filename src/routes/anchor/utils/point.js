@@ -15,6 +15,39 @@ export function getDistance(start, end) {
   return Math.sqrt(dx ** 2 + dy ** 2);
 }
 
+// 计算点到线段的垂足
+export function getPerpendicularFoot({ point, start, end }) {
+  const { x: px, y: py } = point;
+  const { x: x1, y: y1 } = start;
+  const { x: x2, y: y2 } = end;
+  // 向量 AB 和 AP
+  const ABx = x2 - x1;
+  const ABy = y2 - y1;
+  const APx = px - x1;
+  const APy = py - y1;
+
+  // 点 A 到点 P 的向量投影在向量 AB 上的比例 t
+  const t = (APx * ABx + APy * ABy) / (ABx * ABx + ABy * ABy);
+
+  // 计算垂足点的坐标
+  let footX, footY;
+  if (t < 0) {
+    // 如果 t < 0，则垂足在点 A 处
+    footX = x1;
+    footY = y1;
+  } else if (t > 1) {
+    // 如果 t > 1，则垂足在点 B 处
+    footX = x2;
+    footY = y2;
+  } else {
+    // 否则，计算垂足点坐标
+    footX = x1 + t * ABx;
+    footY = y1 + t * ABy;
+  }
+
+  return { x: footX, y: footY };
+}
+
 export function getShortestPointInLine(data) {
   const { segment, point } = data;
   let start = null;
@@ -29,35 +62,15 @@ export function getShortestPointInLine(data) {
   const { x: startX, y: startY } = start;
   const { x: endX, y: endY } = end;
   const { x: pointX, y: pointY } = point;
+  let shortestPoint = null;
 
-  // 特殊情况处理：如果线段是垂直线
-  if (startX === endX) {
-    // 垂直线的情况下，垂直距离就是水平距离
-    return Math.abs(pointX - startX);
-  }
-
-  const dx = endX - startX;
-  const dy = endY - startY;
-  const slope = dy / dx;
-  // const intercept = startY - slope * startX;
-  // 计算目标点到线段的垂直距离
-  // const perpendicularDistance =
-  //   Math.abs(-slope * pointX + pointY - intercept) /
-  //   Math.sqrt(slope * slope + 1);
   // 确定目标点是否在线段的范围内
   if (
-    pointX >= Math.min(startX, endX) &&
-    pointX <= Math.max(startX, endX) &&
-    pointY >= Math.min(startY, endY) &&
-    pointY <= Math.max(startY, endY)
+    (pointX >= Math.min(startX, endX) && pointX <= Math.max(startX, endX)) ||
+    (pointY >= Math.min(startY, endY) && pointY <= Math.max(startY, endY))
   ) {
-    // 计算垂足的坐标
-    let footX =
-      (slope * pointY + pointX / slope + startY - slope * startX) /
-      (slope + 1 / slope);
-    let footY = slope * (footX - startX) + startY;
-    // return Math.sqrt((footX - pointX) ** 2 + (footY - pointY) ** 2);
-    return { x: footX, y: footY };
+    shortestPoint = getPerpendicularFoot({ point, start, end });
+    shortestPoint.ifPointNearSegment = true;
   } else {
     // 如果目标点在线段的延长线上，则返回线段的端点到目标点的距离
     const distanceFromStart = Math.sqrt(
@@ -68,11 +81,15 @@ export function getShortestPointInLine(data) {
     );
 
     if (distanceFromStart < distanceFromEnd) {
-      return start;
+      shortestPoint = { ...start };
     } else {
-      return end;
+      shortestPoint = { ...end };
     }
+
+    shortestPoint.ifPointNearSegment = false;
   }
+
+  return shortestPoint;
 }
 
 // 寻找离得最近的线段
@@ -112,4 +129,19 @@ export function points2Segments(points) {
   }
 
   return segments;
+}
+
+export function isPointOnSegment({ point, segment, maxDistance = 5 }) {
+  let ifPointOnSegment = false;
+  const { ifPointNearSegment, ...closestPoint } = getShortestPointInLine({
+    segment,
+    point,
+  });
+
+  if (ifPointNearSegment) {
+    const distance = getDistance(closestPoint, point);
+    ifPointOnSegment = distance < maxDistance;
+  }
+
+  return { ifPointOnSegment };
 }

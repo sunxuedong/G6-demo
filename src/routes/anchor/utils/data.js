@@ -19,7 +19,7 @@ export const data = {
     {
       id: "2",
       label: "node-2",
-      x: 150,
+      x: 100,
       y: 350,
       description: "This is node-2.",
       subdescription: "This is subdescription of node-2.",
