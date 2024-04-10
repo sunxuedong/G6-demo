@@ -17,7 +17,6 @@ const handleTooltip = ({
 
   requestData({ evt }).then(
     asyncFn((res) => {
-      setTooltipShow(true);
       setTooltipContent(res);
     })
   );
