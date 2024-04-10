@@ -39,18 +39,21 @@ export const data = {
       source: "0",
       target: "1",
       description: "This is edge from node 0 to node 1.",
+      controlPoints: [],
     },
     {
       id: "e1",
       source: "0",
       target: "2",
       description: "This is edge from node 0 to node 2.",
+      controlPoints: [],
     },
     {
       id: "e2",
       source: "0",
       target: "3",
       description: "This is edge from node 0 to node 3.",
+      controlPoints: [],
     },
   ],
 };
