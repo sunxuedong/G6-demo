@@ -18,6 +18,8 @@ export const initEvent = ({ graph }) => {
     const edgesIns = graph.getEdges();
     let targetEdgeIns = null;
     let targetAnchor = null;
+    let indexInControlPoints = -1;
+    let targetControlPoints = null;
 
     edgesInsLoop: for (let i = 0; i < edgesIns.length; i++) {
       const edgeItem = edgesIns[i];
@@ -31,6 +33,8 @@ export const initEvent = ({ graph }) => {
         if (ifNear) {
           targetEdgeIns = edgeItem;
           targetAnchor = anchor;
+          indexInControlPoints = k;
+          targetControlPoints = controlPoints;
           break edgesInsLoop;
         }
       }
