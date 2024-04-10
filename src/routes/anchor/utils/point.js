@@ -145,3 +145,9 @@ export function isPointOnSegment({ point, segment, maxDistance = 5 }) {
 
   return { ifPointOnSegment };
 }
+
+export function isPointsNear({ point1, point2, maxDistance = 5 } = {}) {
+  const distance = getDistance(point1, point2);
+  const ifNear = distance <= maxDistance;
+  return { ifNear };
+}

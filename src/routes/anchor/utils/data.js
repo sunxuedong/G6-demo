@@ -27,33 +27,42 @@ export const data = {
     {
       id: "3",
       label: "node-3",
-      x: 420,
-      y: 380,
+      x: 444,
+      y: 330,
       description: "This is node-3.",
       subdescription: "This is subdescription of node-3.",
     },
   ],
   edges: [
-    {
-      id: "e0",
-      source: "0",
-      target: "1",
-      description: "This is edge from node 0 to node 1.",
-      controlPoints: [],
-    },
-    {
-      id: "e1",
-      source: "0",
-      target: "2",
-      description: "This is edge from node 0 to node 2.",
-      controlPoints: [],
-    },
+    // {
+    //   id: "e0",
+    //   source: "0",
+    //   target: "1",
+    //   description: "This is edge from node 0 to node 1.",
+    //   controlPoints: [],
+    // },
+    // {
+    //   id: "e1",
+    //   source: "0",
+    //   target: "2",
+    //   description: "This is edge from node 0 to node 2.",
+    //   controlPoints: [],
+    // },
     {
       id: "e2",
       source: "0",
       target: "3",
       description: "This is edge from node 0 to node 3.",
-      controlPoints: [],
+      controlPoints: [
+        {
+          x: 194,
+          y: 235,
+        },
+        {
+          x: 338,
+          y: 167,
+        },
+      ],
     },
   ],
 };
