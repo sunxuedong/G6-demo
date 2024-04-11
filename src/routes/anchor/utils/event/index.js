@@ -1,6 +1,6 @@
 import Anchor from "./anchor";
 
-export const initEvent = ({ graph }) => {
+export const initEvent = ({ graph, onAnchorChange }) => {
   const anchor = new Anchor();
 
   graph.on("mousedown", (evt) => {
@@ -8,7 +8,7 @@ export const initEvent = ({ graph }) => {
   });
 
   graph.on("mousemove", (evt) => {
-    anchor.onMousemove({ evt, graph });
+    anchor.onMousemove({ evt, graph, onAnchorChange });
   });
 
   graph.on("mouseup", (evt) => {

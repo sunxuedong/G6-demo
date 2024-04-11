@@ -1,5 +1,4 @@
 import G6 from "@antv/g6";
-import getContextMenu from "./contextMenu";
 
 const getDefaultOptions = () => {
   const defaultOptions = {
@@ -17,13 +16,14 @@ const getDefaultOptions = () => {
     modes: {
       default: ["drag-node", "zoom-canvas", "drag-canvas"],
     },
-    plugins: [getContextMenu()],
   };
 
   return defaultOptions;
 };
 
-export const initGraph = (options = {}) => {
+export const initGraph = (data) => {
+  data = data || {};
+  let options = data?.options || {};
   const defaultOptions = getDefaultOptions();
   options = Object.assign({}, defaultOptions, options);
   // 在组件挂载时创建图实例

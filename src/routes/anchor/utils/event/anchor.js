@@ -1,10 +1,9 @@
 import { isPointsNear } from "../point";
-import { anchorRadius } from "../config";
+import { anchorRadius, ANCHOR_CIRCLE } from "../config";
+import { callFn } from "../../../../utils";
 
 export default class Anchor {
   anchor = null;
-
-  constructor() {}
 
   onMousedown = ({ evt, graph }) => {
     const { originalEvent } = evt;
@@ -50,7 +49,7 @@ export default class Anchor {
 
       const group = targetEdgeIns.getContainer();
       const shape = group.getShape(targetAnchor.x, targetAnchor.y);
-      const ifAnchorCircle = shape?.cfg?.name === "anchor-circle";
+      const ifAnchorCircle = shape?.cfg?.name === ANCHOR_CIRCLE;
 
       if (ifAnchorCircle) {
         this.anchor.anchorShape = shape;
@@ -59,7 +58,7 @@ export default class Anchor {
       this.anchor = null;
     }
   };
-  onMousemove = ({ evt, graph }) => {
+  onMousemove = ({ evt, graph, onAnchorChange }) => {
     if (!this.anchor) return;
     const {
       targetEdgeIns: item,
@@ -76,6 +75,9 @@ export default class Anchor {
     const model = item.get("model");
     model.controlPoints[indexInControlPoints].x = evt.x;
     model.controlPoints[indexInControlPoints].y = evt.y;
+
+    callFn(onAnchorChange)({ item });
+
     graph.refreshItem(item);
   };
   onMouseup = ({ evt }) => {

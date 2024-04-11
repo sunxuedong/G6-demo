@@ -34,20 +34,20 @@ export const data = {
     },
   ],
   edges: [
-    // {
-    //   id: "e0",
-    //   source: "0",
-    //   target: "1",
-    //   description: "This is edge from node 0 to node 1.",
-    //   controlPoints: [],
-    // },
-    // {
-    //   id: "e1",
-    //   source: "0",
-    //   target: "2",
-    //   description: "This is edge from node 0 to node 2.",
-    //   controlPoints: [],
-    // },
+    {
+      id: "e0",
+      source: "0",
+      target: "1",
+      description: "This is edge from node 0 to node 1.",
+      controlPoints: [],
+    },
+    {
+      id: "e1",
+      source: "0",
+      target: "2",
+      description: "This is edge from node 0 to node 2.",
+      controlPoints: [],
+    },
     {
       id: "e2",
       source: "0",

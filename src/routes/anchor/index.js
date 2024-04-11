@@ -1,8 +1,10 @@
 import React, { useEffect, useRef } from "react";
+import { debounce } from "lodash";
 import { data } from "./utils/data";
 import { initGraph } from "./utils/graph";
 import { initEvent } from "./utils/event";
 import register from "./utils/register";
+import getContextMenu from "./utils/contextMenu";
 import "./index.scss";
 
 const Anchor = () => {
@@ -10,9 +12,18 @@ const Anchor = () => {
 
   useEffect(() => {
     register();
+    const onAnchorChange = debounce(function ({ item }) {
+      const model = item.getModel();
+      const { controlPoints } = model;
+
+      console.log(controlPoints);
+    }, 300);
 
     let graph = initGraph({
-      container: graphContainer.current,
+      options: {
+        container: graphContainer.current,
+        plugins: [getContextMenu({ onAnchorChange })],
+      },
     });
 
     // 添加图数据
@@ -20,7 +31,7 @@ const Anchor = () => {
     // 渲染图
     graph.render();
 
-    initEvent({ graph });
+    initEvent({ graph, onAnchorChange });
 
     // 在组件卸载时销毁图实例
     return () => {

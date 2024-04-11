@@ -1,8 +1,11 @@
 import G6 from "@antv/g6";
+import { getObject, callFn } from "../../../utils";
 import { points2Segments, findClosestLineSegments } from "./point";
 import { addAnchorShape } from "./register/edge";
 
-export default function getContextMenu() {
+export default function getContextMenu(params) {
+  params = getObject({ data: params });
+  const { onAnchorChange } = params;
   let event = null;
 
   const contextMenu = new G6.Menu({
@@ -63,6 +66,8 @@ export default function getContextMenu() {
           graph.updateItem(edge, {
             controlPoints: newControlPoints,
           });
+
+          callFn(onAnchorChange)({ item: edge });
         }
       }
     },

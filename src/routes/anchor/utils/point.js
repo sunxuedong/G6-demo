@@ -1,10 +1,4 @@
-function isObject(data) {
-  return Object.prototype.toString.call(data) === "[object Object]";
-}
-
-function getObject({ data, defaultValue = {} }) {
-  return isObject(data) ? data : defaultValue;
-}
+import { getObject, isObject } from "../../../utils/index";
 
 export function getDistance(start, end) {
   const { x: startX, y: startY } = start;
