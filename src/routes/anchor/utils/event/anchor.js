@@ -3,22 +3,22 @@ import { anchorRadius, ANCHOR_CIRCLE } from "../config";
 import { callFn } from "@/utils";
 
 export default class Anchor {
-  anchor = null;
+  targetAnchor = null;
 
   onMousedown = ({ evt, graph }) => {
     const { originalEvent } = evt;
 
     if (originalEvent.button !== 0) return; // 0为鼠标左键
 
-    const edgesIns = graph.getEdges();
-    let targetEdgeIns = null;
+    const edges = graph.getEdges();
+    let targetEdge = null;
     let targetAnchor = null;
-    let indexInControlPoints = -1;
-    let targetControlPoints = null;
+    let indexOfAnchor = -1;
+    let belongControlPoints = null;
 
-    edgesInsLoop: for (let i = 0; i < edgesIns.length; i++) {
-      const edgeItem = edgesIns[i];
-      const edgeModel = edgeItem.getModel();
+    edgesInsLoop: for (let i = 0; i < edges.length; i++) {
+      const edge = edges[i];
+      const edgeModel = edge.getModel();
       const controlPoints = edgeModel.controlPoints || [];
 
       for (let k = 0; k < controlPoints.length; k++) {
@@ -30,41 +30,41 @@ export default class Anchor {
         });
 
         if (ifNear) {
-          targetEdgeIns = edgeItem;
+          targetEdge = edge;
           targetAnchor = anchor;
-          indexInControlPoints = k;
-          targetControlPoints = controlPoints;
+          indexOfAnchor = k;
+          belongControlPoints = controlPoints;
           break edgesInsLoop;
         }
       }
     }
 
-    if (targetEdgeIns) {
-      this.anchor = {
-        targetEdgeIns,
+    if (targetEdge) {
+      this.targetAnchor = {
+        edge: targetEdge,
         targetAnchor,
-        indexInControlPoints,
-        targetControlPoints,
+        index: indexOfAnchor,
+        controlPoints: belongControlPoints,
       };
 
-      const group = targetEdgeIns.getContainer();
+      const group = targetEdge.getContainer();
       const shape = group.getShape(targetAnchor.x, targetAnchor.y);
       const ifAnchorCircle = shape?.cfg?.name === ANCHOR_CIRCLE;
 
       if (ifAnchorCircle) {
-        this.anchor.anchorShape = shape;
+        this.targetAnchor.anchorShape = shape;
       }
     } else {
-      this.anchor = null;
+      this.targetAnchor = null;
     }
   };
   onMousemove = ({ evt, graph, onAnchorChange }) => {
-    if (!this.anchor) return;
+    if (!this.targetAnchor) return;
     const {
-      targetEdgeIns: item,
-      indexInControlPoints,
+      edge: item,
+      index,
       anchorShape,
-    } = this.anchor;
+    } = this.targetAnchor;
 
     if (anchorShape) {
       anchorShape.attr({
@@ -73,8 +73,8 @@ export default class Anchor {
       });
     }
     const model = item.get("model");
-    model.controlPoints[indexInControlPoints].x = evt.x;
-    model.controlPoints[indexInControlPoints].y = evt.y;
+    model.controlPoints[index].x = evt.x;
+    model.controlPoints[index].y = evt.y;
 
     callFn(onAnchorChange)({ item });
 
@@ -85,6 +85,6 @@ export default class Anchor {
 
     if (originalEvent.button !== 0) return; // 0为鼠标左键
 
-    this.anchor = null;
+    this.targetAnchor = null;
   };
 }
