@@ -1,16 +1,20 @@
 import G6 from "@antv/g6";
 import { getObject, callFn } from "@/utils";
+import { isPointsNear } from "./point";
+import { anchorRadius } from "./config";
 import { points2Segments, findClosestLineSegments } from "./point";
-import { addAnchorShape } from "./register/edge";
+import { addAnchorShape, deleteAnchorShape } from "./register/edge";
 
 export default function getContextMenu(params) {
   params = getObject({ data: params });
   const { onAnchorChange } = params;
   let event = null;
+  let deletingAnchor = null;
 
   const contextMenu = new G6.Menu({
     getContent(evt) {
       event = evt;
+      deletingAnchor = null;
       let header;
       let content = "";
       if (evt.target && evt.target.isCanvas && evt.target.isCanvas()) {
@@ -20,7 +24,32 @@ export default function getContextMenu(params) {
         header = `${itemType.toUpperCase()} ContextMenu`;
 
         if (itemType === "edge") {
-          content = `<li style="cursor: pointer" data-type="edge" data-btn-name="addAnchor">添加拐点</li>`;
+          const edgeModel = evt.item.getModel();
+          const controlPoints = edgeModel.controlPoints || [];
+          let ifNearAnchor = false;
+
+          for (let k = 0; k < controlPoints.length; k++) {
+            const anchor = controlPoints[k];
+            const { ifNear } = isPointsNear({
+              point1: anchor,
+              point2: evt,
+              maxDistance: anchorRadius,
+            });
+
+            if (ifNear) {
+              ifNearAnchor = true;
+              deletingAnchor = {
+                index: k,
+              };
+              break;
+            }
+          }
+
+          if (ifNearAnchor) {
+            content += `<li style="cursor: pointer" data-type="edge" data-btn-name="deleteAnchor">删除拐点</li>`;
+          } else {
+            content += `<li style="cursor: pointer" data-type="edge" data-btn-name="addAnchor">添加拐点</li>`;
+          }
         }
       }
       return `
@@ -68,6 +97,24 @@ export default function getContextMenu(params) {
           });
 
           callFn(onAnchorChange)({ item: edge });
+        } else if (btnName === "deleteAnchor") {
+          if (deletingAnchor) {
+            const edge = item;
+            const group = edge.getContainer();
+            const model = edge.getModel();
+            const { controlPoints = [] } = model;
+            const deletedControlPoint = controlPoints[deletingAnchor.index];
+
+            controlPoints.splice(deletingAnchor.index, 1);
+
+            deleteAnchorShape({ group, cp: deletedControlPoint });
+
+            graph.updateItem(edge, {
+              controlPoints,
+            });
+
+            callFn(onAnchorChange)({ item: edge });
+          }
         }
       }
     },

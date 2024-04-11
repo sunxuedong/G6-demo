@@ -15,6 +15,11 @@ export const addAnchorShape = ({ group, cp }) => {
   });
 };
 
+export const deleteAnchorShape = ({ group, cp }) => {
+  const shape = group.getShape(cp.x, cp.y);
+  group.removeChild(shape);
+};
+
 export default function CustomEdge() {
   G6.registerEdge(
     "anchorEdge",
