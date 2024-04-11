@@ -3,7 +3,7 @@ import Anchor from "./anchor";
 export const initEvent = ({ graph, onAnchorChange }) => {
   const anchor = new Anchor();
 
-  graph.on("mousedown", (evt) => {
+  graph.on("edge:mousedown", (evt) => {
     anchor.onMousedown({ evt, graph });
   });
 
@@ -11,7 +11,7 @@ export const initEvent = ({ graph, onAnchorChange }) => {
     anchor.onMousemove({ evt, graph, onAnchorChange });
   });
 
-  graph.on("mouseup", (evt) => {
+  graph.on("edge:mouseup", (evt) => {
     anchor.onMouseup({ evt, graph });
   });
 };

@@ -6,65 +6,42 @@ export default class Anchor {
   targetAnchor = null;
 
   onMousedown = ({ evt, graph }) => {
-    const { originalEvent } = evt;
+    const { originalEvent, item: edge } = evt;
 
     if (originalEvent.button !== 0) return; // 0为鼠标左键
 
-    const edges = graph.getEdges();
-    let targetEdge = null;
-    let targetAnchor = null;
-    let indexOfAnchor = -1;
-    let belongControlPoints = null;
+    const model = edge.getModel();
+    const controlPoints = model.controlPoints || [];
 
-    edgesInsLoop: for (let i = 0; i < edges.length; i++) {
-      const edge = edges[i];
-      const edgeModel = edge.getModel();
-      const controlPoints = edgeModel.controlPoints || [];
+    for (let k = 0; k < controlPoints.length; k++) {
+      const anchor = controlPoints[k];
+      const { ifNear } = isPointsNear({
+        point1: anchor,
+        point2: evt,
+        maxDistance: anchorRadius,
+      });
 
-      for (let k = 0; k < controlPoints.length; k++) {
-        const anchor = controlPoints[k];
-        const { ifNear } = isPointsNear({
-          point1: anchor,
-          point2: evt,
-          maxDistance: anchorRadius,
-        });
+      if (ifNear) {
+        const group = edge.getContainer();
+        const shape = group.getShape(anchor.x, anchor.y);
+        const ifAnchorCircle = shape?.cfg?.name === ANCHOR_CIRCLE;
 
-        if (ifNear) {
-          targetEdge = edge;
-          targetAnchor = anchor;
-          indexOfAnchor = k;
-          belongControlPoints = controlPoints;
-          break edgesInsLoop;
-        }
+        this.targetAnchor = {
+          edge,
+          index: k,
+          anchorShape: ifAnchorCircle ? shape : void 0,
+          ...anchor,
+        };
+
+        return;
       }
     }
 
-    if (targetEdge) {
-      this.targetAnchor = {
-        edge: targetEdge,
-        targetAnchor,
-        index: indexOfAnchor,
-        controlPoints: belongControlPoints,
-      };
-
-      const group = targetEdge.getContainer();
-      const shape = group.getShape(targetAnchor.x, targetAnchor.y);
-      const ifAnchorCircle = shape?.cfg?.name === ANCHOR_CIRCLE;
-
-      if (ifAnchorCircle) {
-        this.targetAnchor.anchorShape = shape;
-      }
-    } else {
-      this.targetAnchor = null;
-    }
+    this.targetAnchor = null;
   };
   onMousemove = ({ evt, graph, onAnchorChange }) => {
     if (!this.targetAnchor) return;
-    const {
-      edge: item,
-      index,
-      anchorShape,
-    } = this.targetAnchor;
+    const { edge: item, index, anchorShape } = this.targetAnchor;
 
     if (anchorShape) {
       anchorShape.attr({
