@@ -1,5 +1,6 @@
 import G6 from "@antv/g6";
 import { points2Segments, findClosestLineSegments } from "./point";
+import { addAnchorShape } from "./register/edge";
 
 export default function getContextMenu() {
   let event = null;
@@ -16,19 +17,20 @@ export default function getContextMenu() {
         header = `${itemType.toUpperCase()} ContextMenu`;
 
         if (itemType === "edge") {
-          content = `<li style="cursor: pointer" data-type="edge" data-btn-name="addBtn">添加拐点</li>`;
+          content = `<li style="cursor: pointer" data-type="edge" data-btn-name="addAnchor">添加拐点</li>`;
         }
       }
       return `
       <h3>${header}</h3>
-      <ul>${content}</ul>`;
+      <ul class="menu">${content}</ul>`;
     },
     handleMenuClick: (target, item, graph) => {
       const { type, btnName } = target.dataset;
 
       if (type === "edge") {
-        if (btnName === "addBtn") {
+        if (btnName === "addAnchor") {
           const edge = item;
+          const group = edge.getContainer();
           const model = edge.getModel();
           let { controlPoints = [] } = model;
           const point = { x: event.x, y: event.y };
@@ -55,6 +57,8 @@ export default function getContextMenu() {
           sourceToTargetPoints.splice(insertIndex, 0, point);
 
           const newControlPoints = sourceToTargetPoints.slice(1, -1);
+
+          addAnchorShape({ group, cp: point });
 
           graph.updateItem(edge, {
             controlPoints: newControlPoints,

@@ -1,4 +1,19 @@
 import G6 from "@antv/g6";
+import { anchorRadius } from "../config";
+
+export const addAnchorShape = ({ group, cp }) => {
+  group.addShape("circle", {
+    attrs: {
+      x: cp.x,
+      y: cp.y,
+      r: anchorRadius, // 控制点的半径
+      fill: "#fff", // 控制点的填充色
+      stroke: "#666", // 控制点的边框颜色
+      lineWidth: 1, // 控制点的边框宽度
+    },
+    name: "anchor-circle",
+  });
+};
 
 export default function CustomEdge() {
   G6.registerEdge(
@@ -34,19 +49,7 @@ export default function CustomEdge() {
 
         // 绘制控制点样式
         if (controlPoints && controlPoints.length > 0) {
-          controlPoints.forEach((cp) => {
-            group.addShape("circle", {
-              attrs: {
-                x: cp.x,
-                y: cp.y,
-                r: 4, // 控制点的半径
-                fill: "#fff", // 控制点的填充色
-                stroke: "#666", // 控制点的边框颜色
-                lineWidth: 1, // 控制点的边框宽度
-              },
-              name: "anchor-circle"
-            });
-          });
+          controlPoints.forEach((cp) => addAnchorShape({ cp, group }));
         }
 
         return shape;

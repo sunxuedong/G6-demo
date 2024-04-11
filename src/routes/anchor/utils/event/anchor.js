@@ -1,4 +1,5 @@
 import { isPointsNear } from "../point";
+import { anchorRadius } from "../config";
 
 export default class Anchor {
   anchor = null;
@@ -6,6 +7,10 @@ export default class Anchor {
   constructor() {}
 
   onMousedown = ({ evt, graph }) => {
+    const { originalEvent } = evt;
+
+    if (originalEvent.button !== 0) return; // 0为鼠标左键
+
     const edgesIns = graph.getEdges();
     let targetEdgeIns = null;
     let targetAnchor = null;
@@ -19,7 +24,11 @@ export default class Anchor {
 
       for (let k = 0; k < controlPoints.length; k++) {
         const anchor = controlPoints[k];
-        const { ifNear } = isPointsNear({ point1: anchor, point2: evt });
+        const { ifNear } = isPointsNear({
+          point1: anchor,
+          point2: evt,
+          maxDistance: anchorRadius,
+        });
 
         if (ifNear) {
           targetEdgeIns = edgeItem;
@@ -69,7 +78,11 @@ export default class Anchor {
     model.controlPoints[indexInControlPoints].y = evt.y;
     graph.refreshItem(item);
   };
-  onMouseup = () => {
+  onMouseup = ({ evt }) => {
+    const { originalEvent } = evt;
+
+    if (originalEvent.button !== 0) return; // 0为鼠标左键
+
     this.anchor = null;
   };
 }

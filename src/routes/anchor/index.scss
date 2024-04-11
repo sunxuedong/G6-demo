@@ -1,4 +1,13 @@
 .anchor-demo {
   height: 100%;
   overflow: hidden;
+  .menu {
+    list-style: none;
+    padding: 0;
+    & > li {
+      &:hover {
+        background-color: bisque;
+      }
+    }
+  }
 }
