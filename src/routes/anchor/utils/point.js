@@ -1,4 +1,4 @@
-import { getObject, isObject } from "../../../utils/index";
+import { getObject, isObject } from "@/utils";
 
 export function getDistance(start, end) {
   const { x: startX, y: startY } = start;

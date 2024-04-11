@@ -1,5 +1,5 @@
 import G6 from "@antv/g6";
-import { getObject, callFn } from "../../../utils";
+import { getObject, callFn } from "@/utils";
 import { points2Segments, findClosestLineSegments } from "./point";
 import { addAnchorShape } from "./register/edge";
 

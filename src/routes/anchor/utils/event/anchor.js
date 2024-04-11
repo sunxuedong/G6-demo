@@ -1,6 +1,6 @@
 import { isPointsNear } from "../point";
 import { anchorRadius, ANCHOR_CIRCLE } from "../config";
-import { callFn } from "../../../../utils";
+import { callFn } from "@/utils";
 
 export default class Anchor {
   anchor = null;

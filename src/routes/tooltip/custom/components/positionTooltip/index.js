@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import Portal from "../../../../../components/protal";
-import usePrevious from "../../../../../hooks/usePrevious";
+import Portal from "@/components/protal";
+import usePrevious from "@/hooks/usePrevious";
 import { computedStyle } from "../../utils/util";
 import "./index.scss";
 
