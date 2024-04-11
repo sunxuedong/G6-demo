@@ -1,5 +1,5 @@
 import { isPointsNear } from "../point";
-import { anchorRadius, ANCHOR_CIRCLE } from "../config";
+import { ANCHOR_RADIUS, ANCHOR_CIRCLE } from "../config";
 import { callFn } from "@/utils";
 
 export default class Anchor {
@@ -18,7 +18,7 @@ export default class Anchor {
       const { ifNear } = isPointsNear({
         point1: anchor,
         point2: evt,
-        maxDistance: anchorRadius,
+        maxDistance: ANCHOR_RADIUS,
       });
 
       if (ifNear) {

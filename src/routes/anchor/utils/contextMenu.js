@@ -1,7 +1,7 @@
 import G6 from "@antv/g6";
 import { getObject, callFn } from "@/utils";
 import { isPointsNear } from "./point";
-import { anchorRadius } from "./config";
+import { ANCHOR_RADIUS } from "./config";
 import { points2Segments, findClosestLineSegments } from "./point";
 import { addAnchorShape, deleteAnchorShape } from "./register/edge";
 
@@ -33,7 +33,7 @@ export default function getContextMenu(params) {
             const { ifNear } = isPointsNear({
               point1: anchor,
               point2: evt,
-              maxDistance: anchorRadius,
+              maxDistance: ANCHOR_RADIUS,
             });
 
             if (ifNear) {

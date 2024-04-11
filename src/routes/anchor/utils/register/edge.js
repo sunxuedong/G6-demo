@@ -1,15 +1,15 @@
 import G6 from "@antv/g6";
-import { anchorRadius, ANCHOR_CIRCLE } from "../config";
+import { ANCHOR_RADIUS, ANCHOR_LINE_WIDTH, ANCHOR_CIRCLE } from "../config";
 
 export const addAnchorShape = ({ group, cp }) => {
   group.addShape("circle", {
     attrs: {
       x: cp.x,
       y: cp.y,
-      r: anchorRadius, // 控制点的半径
+      r: ANCHOR_RADIUS, // 控制点的半径
       fill: "#fff", // 控制点的填充色
       stroke: "#666", // 控制点的边框颜色
-      lineWidth: 1, // 控制点的边框宽度
+      lineWidth: ANCHOR_LINE_WIDTH, // 控制点的边框宽度
     },
     name: ANCHOR_CIRCLE,
   });
