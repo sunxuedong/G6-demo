@@ -9,7 +9,7 @@ const getDefaultOptions = () => {
       shape: "rect",
     },
     defaultEdge: {
-      type: "polyline",
+      type: "anchorEdge",
       style: {
         lineAppendWidth: 3,
       },

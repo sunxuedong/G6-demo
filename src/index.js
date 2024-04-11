@@ -7,6 +7,7 @@ import Home from "./routes/home";
 import TooltipPlugin from "./routes/tooltip/plugin";
 import TooltipCustom from "./routes/tooltip/custom";
 import Anchor from "./routes/anchor";
+import Demo from "./routes/demo";
 import "./index.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -22,6 +23,7 @@ root.render(
             <Route path="custom" element={<TooltipCustom />}></Route>
           </Route>
           <Route path="anchor" element={<Anchor />} />
+          <Route path="demo" element={<Demo />} />
         </Route>
       </Routes>
     </React.StrictMode>

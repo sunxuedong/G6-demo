@@ -2,12 +2,15 @@ import React, { useEffect, useRef } from "react";
 import { data } from "./utils/data";
 import { initGraph } from "./utils/graph";
 import { initEvent } from "./utils/event";
+import register from "./utils/register";
 import "./index.scss";
 
-const TooltipPlugin = () => {
+const Anchor = () => {
   const graphContainer = useRef(null);
 
   useEffect(() => {
+    register();
+
     let graph = initGraph({
       container: graphContainer.current,
     });
@@ -43,4 +46,4 @@ const TooltipPlugin = () => {
   return <div ref={graphContainer} className="anchor-demo" />;
 };
 
-export default TooltipPlugin;
+export default Anchor;
