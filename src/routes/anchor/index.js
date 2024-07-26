@@ -22,6 +22,8 @@ const Anchor = () => {
     let graph = initGraph({
       options: {
         container: graphContainer.current,
+        width: 800,
+        height: 600,
         plugins: [getContextMenu({ onAnchorChange })],
       },
     });
